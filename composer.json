@@ -1,0 +1,20 @@
+{
+    "name": "cognito/couriersplease",
+    "type": "library",
+    "description": "Couriers Please API",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Josh Marshall",
+            "email": "josh@jmarshall.com.au"
+        }
+    ],
+    "require": {
+        "php": ">=7.2"
+    },
+    "autoload": {
+        "psr-4": {
+			"Cognito\\CouriersPlease\\": "src/"
+		}
+    }
+}
