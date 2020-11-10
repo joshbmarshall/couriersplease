@@ -102,10 +102,10 @@ class Shipment {
         foreach ($this->parcels as $parcel) {
             $item = [
                 'quantity' => $parcel->qty,
-                'length' => $parcel->length,
-                'height' => $parcel->height,
-                'width' => $parcel->width,
-                'physicalWeight' => $parcel->weight,
+                'length' => intval($parcel->length),
+                'height' =>intval($parcel->height),
+                'width' => intval($parcel->width),
+                'physicalWeight' => floatval($parcel->weight),
             ];
             $request['items'][] = $item;
         }
