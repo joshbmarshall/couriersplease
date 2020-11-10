@@ -24,8 +24,10 @@ class Parcel {
     public $authority_to_leave = false;
     public $tracking_consignment_id;
     public $qty = 1;
+    public $raw_details = [];
 
     public function __construct($values = []) {
+        $this->raw_details = $values;
         foreach ($values as $key => $data) {
             if (!property_exists($this, $key)) {
                 continue;
