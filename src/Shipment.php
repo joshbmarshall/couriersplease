@@ -183,7 +183,7 @@ class Shipment {
             $this->job_number = $response['data']['jobNumber'];
             $this->shipment_lodged_at = new \DateTime();
             foreach ($this->parcels as $parcel) {
-                $parcel->consignment_id = $this->shipment_id;
+                $parcel->tracking_consignment_id = $this->shipment_id;
             }
         }
     }
