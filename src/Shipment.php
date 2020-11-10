@@ -103,7 +103,7 @@ class Shipment {
             $item = [
                 'quantity' => $parcel->qty,
                 'length' => intval($parcel->length),
-                'height' =>intval($parcel->height),
+                'height' => intval($parcel->height),
                 'width' => intval($parcel->width),
                 'physicalWeight' => floatval($parcel->weight),
             ];
@@ -162,30 +162,29 @@ class Shipment {
             'rateCardId'                  => $this->product_id,
             'specialInstruction'          => $this->delivery_instructions,
             'isATL'                       => $this->isATL(),
-            'readyDateTime'               => "2016-05-25 07:30 AM",
             'InsuranceCategory'           => $this->insurance_type,
             'items'                       => [],
         ];
         foreach ($this->parcels as $parcel) {
             $item = [
-                'quantity'       => $parcel->qty,
-                'length'         => $parcel->length,
-                'height'         => $parcel->height,
-                'width'          => $parcel->width,
-                'physicalWeight' => $parcel->weight,
+                'quantity'       => intval($parcel->qty),
+                'length'         => intval($parcel->length),
+                'height'         => intval($parcel->height),
+                'width'          => intval($parcel->width),
+                'physicalWeight' => floatval($parcel->weight),
             ];
             $request['items'][] = $item;
         }
 
         $response = $this->_couriersplease->sendPostRequest('v2/domestic/shipment/create', $request);
         if ($response['responseCode'] == 'SUCCESS') {
-        $this->shipment_id = $response['data']['consignmentCode'];
-        $this->reference_number = $response['data']['referenceNumber'];
-        $this->job_number = $response['data']['jobNumber'];
-        $this->shipment_lodged_at = new \DateTime();
-        foreach ($this->parcels as $parcel) {
-            $parcel->consignment_id = $this->shipment_id;
-        }
+            $this->shipment_id = $response['data']['consignmentCode'];
+            $this->reference_number = $response['data']['referenceNumber'];
+            $this->job_number = $response['data']['jobNumber'];
+            $this->shipment_lodged_at = new \DateTime();
+            foreach ($this->parcels as $parcel) {
+                $parcel->consignment_id = $this->shipment_id;
+            }
         }
     }
 
@@ -204,5 +203,4 @@ class Shipment {
         dump($response);
         return null;
     }
-
 }
