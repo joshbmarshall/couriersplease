@@ -34,6 +34,14 @@ class CouriersPlease {
         return new Shipment($this);
     }
 
+    /**
+     * Start a new pickup for booking the driver
+     * @return \Cognito\CouriersPlease\Pickup
+     */
+    public function newPickup($data = []) {
+        return new Pickup($this, $data);
+    }
+
     private function buildurl($url) {
         if ($this->test_mode) {
             return 'https://api-test.couriersplease.com.au/' . $url;
