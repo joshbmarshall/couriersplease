@@ -111,10 +111,8 @@ class Shipment {
         }
         $response = $this->_couriersplease->sendPostRequest('v2/domestic/quote', $request);
         $quotes = [];
-        if ($response['responseCode'] == 'SUCCESS') {
-            foreach ($response['data'] as $quote) {
-                $quotes[] = new Quote($quote);
-            }
+        foreach ($response['data'] as $quote) {
+            $quotes[] = new Quote($quote);
         }
         return $quotes;
     }
@@ -177,14 +175,12 @@ class Shipment {
         }
 
         $response = $this->_couriersplease->sendPostRequest('v2/domestic/shipment/create', $request);
-        if ($response['responseCode'] == 'SUCCESS') {
-            $this->shipment_id = $response['data']['consignmentCode'];
-            $this->reference_number = $response['data']['referenceNumber'];
-            $this->job_number = $response['data']['jobNumber'];
-            $this->shipment_lodged_at = new \DateTime();
-            foreach ($this->parcels as $parcel) {
-                $parcel->tracking_consignment_id = $this->shipment_id;
-            }
+        $this->shipment_id = $response['data']['consignmentCode'];
+        $this->reference_number = $response['data']['referenceNumber'];
+        $this->job_number = $response['data']['jobNumber'];
+        $this->shipment_lodged_at = new \DateTime();
+        foreach ($this->parcels as $parcel) {
+            $parcel->tracking_consignment_id = $this->shipment_id;
         }
     }
 
@@ -197,10 +193,16 @@ class Shipment {
         $response = $this->_couriersplease->sendGetRequest('v1/domestic/shipment/label', [
             'consignmentNumber' => $this->shipment_id,
         ]);
-        if ($response['responseCode'] == 'SUCCESS') {
-            return base64_decode($response['data']['label']);
-        }
-        dump($response);
-        return null;
+        return base64_decode($response['data']['label']);
+    }
+
+    /**
+     * Cancel the shipment
+     * @throws \Exception
+     */
+    public function cancelShipment() {
+        $this->_couriersplease->sendPostRequest('v1/domestic/shipment/cancel', [
+            'consignmentCode' => $this->shipment_id,
+        ]);
     }
 }

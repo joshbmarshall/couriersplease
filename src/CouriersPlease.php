@@ -75,12 +75,35 @@ class CouriersPlease {
             return $return_data;
         }
         if ($return_data) {
-            return $return_data;
+            if ($return_data['responseCode'] == 'SUCCESS') {
+                return $return_data;
+            }
+            throw new \Exception($return_data['msg'] . json_encode($return_data['data']));
         }
-        return [
-            'responseCode' => 'FAIL',
-            'status' => $status_code,
-            'msg' => $result,
-        ];
+        throw new \Exception($result);
+    }
+
+    /**
+     * Print the consignment label(s) by consignment number
+     * @param string $consignment_number
+     * @return void
+     * @throws \Exception
+     */
+    public function printLabels($consignment_number) {
+        $shipment = new Shipment($this);
+        $shipment->shipment_id = $consignment_number;
+        return $shipment->getLabel();
+    }
+
+    /**
+     * Cancel the shipment by consignment number
+     * @param string $consignment_number
+     * @return void
+     * @throws \Exception
+     */
+    public function deleteShipment($consignment_number) {
+        $shipment = new Shipment($this);
+        $shipment->shipment_id = $consignment_number;
+        $shipment->cancelShipment();
     }
 }
