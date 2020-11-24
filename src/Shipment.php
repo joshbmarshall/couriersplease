@@ -91,6 +91,8 @@ class Shipment {
      * @throws \Exception
      */
     public function getQuotes() {
+        $this->from->validateData();
+        $this->to->validateData();
         $request = [
             'fromSuburb' => $this->from->suburb,
             'fromPostcode' => $this->from->postcode,

@@ -73,17 +73,17 @@ class Pickup {
         $pickup_address_3 = array_shift($this->pickup_address->lines) ?: '';
         $request = [
             'readyDateTime' => $this->pickup_time->format('Y-m-d h:i a'),
-            'contactName' => $this->contact_name,
+            'contactName' => substr($this->contact_name, 0, 15),
             'contactEmail' => $this->contact_email,
             'consignmentCount' => $consignmentCount,
             'totalItemCount' => $itemcount,
             'totalWeight' => $total_weight,
             'pickup' => [
-                'phoneNumber' => $this->pickup_address->phone,
-                'companyName' => $this->pickup_address->business_name,
-                'address1' => $pickup_address_1,
-                'address2' => $pickup_address_2,
-                'address3' => $pickup_address_3,
+                'phoneNumber' => substr($this->pickup_address->phone, 0, 19),
+                'companyName' => substr($this->pickup_address->business_name, 0, 19),
+                'address1' => substr($pickup_address_1, 0, 19),
+                'address2' => substr($pickup_address_2, 0, 19),
+                'address3' => substr($pickup_address_3, 0, 19),
                 'suburb' => $this->pickup_address->suburb,
                 'postcode' => $this->pickup_address->postcode,
             ],
@@ -94,7 +94,7 @@ class Pickup {
             $deliver_address_1 = array_shift($this->deliver_address->lines) ?: '';
             $deliver_address_2 = array_shift($this->deliver_address->lines) ?: '';
             $request['delivery'] = [
-                'companyName' => $this->deliver_address->business_name,
+                'companyName' => substr($this->deliver_address->business_name, 0, 19),
                 'address1' => substr($deliver_address_1, 0, 19),
                 'address2' => substr($deliver_address_2, 0, 19),
                 'suburb' => $this->deliver_address->suburb,

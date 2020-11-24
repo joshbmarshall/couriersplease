@@ -56,4 +56,33 @@ class Address {
             }
         }
     }
+
+    /**
+     * Check field sizes and throw exception if one is too large
+     * @throws \Exception
+     */
+    public function validateData() {
+        $fieldSizes = [
+            'first_name'    => 50,
+            'last_name'     => 50,
+            'name'          => 50,
+            'business_name' => 50,
+            'suburb'        => 50,
+            'state'         => 50,
+            'postcode'      => 50,
+            'phone'         => 20,
+            'email'         => 50,
+            'country'       => 50,
+        ];
+        foreach ($fieldSizes as $field => $max_length) {
+            if (strlen($this->$field) > $max_length) {
+                throw new \Exception('Field ' . $field . ' exceeds max length of ' . $max_length);
+            }
+        }
+        foreach ($this->lines as $address_line) {
+            if (strlen($address_line) > 100) {
+                throw new \Exception('Address exceeds max length of 100');
+            }
+        }
+    }
 }
