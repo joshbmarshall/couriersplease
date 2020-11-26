@@ -13,17 +13,20 @@ class CouriersPlease {
     private $api_key        = null;
     private $account_number = null;
     private $test_mode      = null;
+    public  $fuel_levy      = null;
 
     /**
      *
      * @param string $api_key The Couriers Please API Key
      * @param string $account_number The Couriers Please Account number
      * @param bool $test_mode Whether to use test mode or not
+     * @param float $fuel_levy The fuel levy percentage as CP API returns an incorrect figure as at 2020-11-26
      */
-    public function __construct($api_key, $account_number, $test_mode = false) {
-        $this->api_key = $api_key;
+    public function __construct($api_key, $account_number, $test_mode = false, $fuel_levy = 10.9) {
+        $this->api_key        = $api_key;
         $this->account_number = $account_number;
-        $this->test_mode = $test_mode;
+        $this->test_mode      = $test_mode;
+        $this->fuel_levy      = $fuel_levy;
     }
 
     /**

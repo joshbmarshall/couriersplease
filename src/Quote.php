@@ -27,13 +27,16 @@ class Quote {
     public $weight;
     public $raw_details = [];
 
-    public function __construct($details) {
+    public function __construct($details, $fuel_levy) {
         $this->raw_details = $details;
         $this->product_id = $details['RateCardCode'];
         $this->product_type = $details['RateCardDescription'];
         $this->eta = $details['ETA'];
         $this->pickup_cutoff_time = $details['PickupCutOffTime'];
-        $this->price_exc_gst = floatval($details['CalculatedFreightCharge']) + floatval($details['CalculatedFuelCharge']) + floatval($details['InsuranceAmt']);
+        if (!floatval($details['CalculatedFuelCharge'])) {
+            $fuel_levy = 0;
+        }
+        $this->price_exc_gst = round((floatval($details['CalculatedFreightCharge']) * (100 + $fuel_levy) / 100) + floatval($details['InsuranceAmt']), 2);
         $this->price_inc_gst = round($this->price_exc_gst * 1.1, 2);
         $this->weight = $details['Weight'];
     }

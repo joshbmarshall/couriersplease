@@ -114,7 +114,7 @@ class Shipment {
         $response = $this->_couriersplease->sendPostRequest('v2/domestic/quote', $request);
         $quotes = [];
         foreach ($response['data'] as $quote) {
-            $quotes[] = new Quote($quote);
+            $quotes[] = new Quote($quote, $this->_couriersplease->fuel_levy);
         }
         return $quotes;
     }
