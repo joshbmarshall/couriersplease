@@ -25,6 +25,7 @@ class Quote {
     public $price_inc_gst;
     public $price_exc_gst;
     public $weight;
+    public $is_serviced = false;
     public $raw_details = [];
 
     public function __construct($details, $fuel_levy) {

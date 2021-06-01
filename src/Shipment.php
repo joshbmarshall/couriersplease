@@ -116,6 +116,20 @@ class Shipment {
         foreach ($response['data'] as $quote) {
             $quotes[] = new Quote($quote, $this->_couriersplease->fuel_levy);
         }
+
+        // Test reverse direction to see if CP picks up from the destination
+        $revRequest = $request;
+        $revRequest['fromSuburb'] = $this->to->suburb;
+        $revRequest['fromPostcode'] = $this->to->postcode;
+        $revRequest['toSuburb'] = $this->from->suburb;
+        $revRequest['toPostcode'] = $this->from->postcode;
+        $revResponse = $this->_couriersplease->sendPostRequest('v2/domestic/quote', $revRequest);
+        if ($revResponse['data']) {
+            // Couriers Please services this location
+            foreach ($quotes as $quote_idx => $quote) {
+                $quotes[$quote_idx]->is_serviced = true;
+            }
+        }
         return $quotes;
     }
 
