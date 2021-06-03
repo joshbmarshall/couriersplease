@@ -53,6 +53,9 @@ class Address {
             if (count($parts) > 1) {
                 $this->first_name = $parts[0];
                 $this->last_name = $parts[1];
+            } else {
+                $this->first_name = $this->name;
+                $this->last_name = $this->name;
             }
         }
     }
